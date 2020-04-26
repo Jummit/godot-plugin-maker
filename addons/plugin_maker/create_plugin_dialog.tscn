@@ -1,16 +1,18 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/plugin_maker/create_plugin_dialog.gd" type="Script" id=1]
 
 [node name="CreatePluginDialog" type="ConfirmationDialog"]
-visible = true
 margin_right = 230.0
-margin_bottom = 96.0
+margin_bottom = 268.0
 rect_min_size = Vector2( 230, 70 )
 window_title = "Create Plugin"
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer2" type="VBoxContainer" parent="."]
+[node name="Content" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 8.0
@@ -22,21 +24,83 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PluginNameEdit" type="LineEdit" parent="HBoxContainer2"]
+[node name="PluginSettingsHeader" type="Label" parent="Content"]
 margin_right = 214.0
-margin_bottom = 24.0
+margin_bottom = 14.0
+text = "Plugin Settings"
+align = 1
+valign = 1
+
+[node name="PluginNameEdit" type="LineEdit" parent="Content"]
+margin_top = 18.0
+margin_right = 214.0
+margin_bottom = 42.0
 rect_min_size = Vector2( 200, 0 )
 placeholder_text = "Plugin Name"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PluginDescriptionEdit" type="LineEdit" parent="HBoxContainer2"]
-margin_top = 28.0
+[node name="PluginDescriptionEdit" type="LineEdit" parent="Content"]
+margin_top = 46.0
 margin_right = 214.0
-margin_bottom = 52.0
+margin_bottom = 70.0
 rect_min_size = Vector2( 200, 0 )
 placeholder_text = "Plugin description."
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="HSeparator" type="HSeparator" parent="Content"]
+margin_top = 74.0
+margin_right = 214.0
+margin_bottom = 78.0
+
+[node name="CustomNodeHeader" type="Label" parent="Content"]
+margin_top = 82.0
+margin_right = 214.0
+margin_bottom = 96.0
+text = "Custom Nodes"
+align = 1
+valign = 1
+
+[node name="CustomNodeList" type="ItemList" parent="Content"]
+margin_top = 100.0
+margin_right = 214.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 0, 100 )
+
+[node name="RenameEdit" type="LineEdit" parent="Content/CustomNodeList"]
+visible = false
+margin_right = 58.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NodeButtons" type="HBoxContainer" parent="Content"]
+margin_top = 204.0
+margin_right = 214.0
+margin_bottom = 224.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RemoveNodeButton" type="Button" parent="Content/NodeButtons"]
+margin_left = 16.0
+margin_right = 118.0
+margin_bottom = 20.0
+text = "Remove Node"
+
+[node name="AddNodeButton" type="Button" parent="Content/NodeButtons"]
+margin_left = 122.0
+margin_right = 197.0
+margin_bottom = 20.0
+text = "Add Node"
+[connection signal="about_to_show" from="." to="." method="_on_about_to_show"]
+[connection signal="item_activated" from="Content/CustomNodeList" to="." method="_on_CustomNodeList_item_activated"]
+[connection signal="focus_exited" from="Content/CustomNodeList/RenameEdit" to="." method="_on_RenameEdit_focus_exited"]
+[connection signal="text_entered" from="Content/CustomNodeList/RenameEdit" to="." method="_on_RenameEdit_text_entered"]
+[connection signal="pressed" from="Content/NodeButtons/RemoveNodeButton" to="." method="_on_RemoveNodeButton_pressed"]
+[connection signal="pressed" from="Content/NodeButtons/AddNodeButton" to="." method="_on_AddNodeButton_pressed"]
